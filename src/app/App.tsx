@@ -1,5 +1,7 @@
+import AppContainer from "../components/AppContainer";
+
 function App() {
-  return <div>Testing the app component...</div>;
+  return <AppContainer>stuff goes here....</AppContainer>;
 }
 
 export default App;
