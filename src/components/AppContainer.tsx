@@ -9,7 +9,7 @@ const AppContainer = ({ children }: AppContainerProps) => {
   return (
     <Container fluid>
       <Row>
-        <Col md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }} bg-white>
+        <Col md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}>
           {children}
         </Col>
       </Row>
