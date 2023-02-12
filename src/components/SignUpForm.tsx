@@ -1,5 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Path from "../routes/Path";
 
 type Error = {
   hasError: boolean;
@@ -23,7 +25,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="mb-2">
       <Form.Group className="mb-3">
         <Form.Control
           value={email}
@@ -56,9 +58,15 @@ const SignUpForm = () => {
         className="btn btn-primsry text-uppercase"
         type="submit"
       >
-        sign in
+        sign up
       </Button>
       {error.hasError && <p>{error.message}</p>}
+      <p className="mt-4 mb-2 text-center text-dark small">
+        Already have an account?{" "}
+        <Link className="text-decoration-none" to={Path.SIGN_IN}>
+          Sign In
+        </Link>
+      </p>
     </Form>
   );
 };
