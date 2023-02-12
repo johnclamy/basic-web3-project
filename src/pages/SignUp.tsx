@@ -1,8 +1,6 @@
 import PageWrapper from "../components/PageWrapper";
 import FormWrapper from "../components/FormWrapper";
 import SignUpForm from "../components/SignUpForm";
-import { Link } from "react-router-dom";
-import Path from "../routes/Path";
 
 const SignUp = () => {
   return (
@@ -10,7 +8,7 @@ const SignUp = () => {
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "6rem" }}
       >
-        <FormWrapper>
+        <FormWrapper title="Sign Up">
           <SignUpForm />
         </FormWrapper>
       </div>
