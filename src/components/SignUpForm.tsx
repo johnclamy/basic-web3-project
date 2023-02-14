@@ -1,27 +1,41 @@
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Path from "../routes/Path";
+import UserAuth from "../services/auth/UserAuth";
+// import { async } from "@firebase/util";
 
 type Error = {
-  hasError: boolean;
+  name: string;
   message: string;
 };
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const { signUp } = UserAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [error, setError] = useState<Error>({ hasError: false, message: "" });
+  const [error, setError] = useState<Error>({ name: "", message: "" });
 
   const isInvalid =
     email.trim() === "" ||
     password !== passwordConfirm ||
     password.trim() === "";
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password, passwordConfirm, error);
+    setError({ name: "", message: "" });
+    try {
+      await signUp(email, password);
+      navigate(Path.HOME);
+      console.log(email, password);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError({ name: err.name, message: err.message });
+      }
+      console.log(err);
+    }
   };
 
   return (
@@ -60,7 +74,7 @@ const SignUpForm = () => {
       >
         sign up
       </Button>
-      {error.hasError && <p>{error.message}</p>}
+      {error.name && <p>{error.message}</p>}
       <p className="mt-4 mb-2 text-center text-dark small">
         Already have an account?{" "}
         <Link className="text-decoration-none" to={Path.SIGN_IN}>
