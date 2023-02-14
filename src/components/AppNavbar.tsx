@@ -2,9 +2,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import Logo from "../components/Logo";
 import Path from "../routes/Path";
+import UserAuth from "../services/auth/UserAuth";
 
 const AppNavbar = () => {
   const navigate = useNavigate();
+  const { logout } = UserAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate(Path.LANDING);
+      console.log("user is logged out");
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error(err.name);
+      }
+    }
+  };
 
   return (
     <Navbar bg="light" expand="lg">
@@ -41,10 +55,13 @@ const AppNavbar = () => {
             >
               Sign In
             </Button>
-            {/*
-            <Button className="btn-sm" variant="outline-secondary">
+            <Button
+              className="btn-sm"
+              variant="outline-secondary"
+              onClick={handleLogout}
+            >
               Logout
-            </Button> */}
+            </Button>
           </div>
         </Navbar.Collapse>
       </Container>
