@@ -3,9 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Path from "../routes/Path";
 import UserAuth from "../services/auth/UserAuth";
-// import { async } from "@firebase/util";
 
-type Error = {
+type Errors = {
   name: string;
   message: string;
 };
@@ -16,7 +15,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [error, setError] = useState<Error>({ name: "", message: "" });
+  const [errors, setErrors] = useState<Errors>({ name: "", message: "" });
 
   const isInvalid =
     email.trim() === "" ||
@@ -25,16 +24,16 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError({ name: "", message: "" });
+    setErrors({ name: "", message: "" });
     try {
       await signUp(email, password);
       navigate(Path.HOME);
-      console.log(email, password);
+      console.log("user has signed up!");
     } catch (err) {
       if (err instanceof Error) {
-        setError({ name: err.name, message: err.message });
+        setErrors({ name: err.name, message: err.message });
       }
-      console.log(err);
+      console.error("Unhandled error!");
     }
   };
 
@@ -74,7 +73,7 @@ const SignUpForm = () => {
       >
         sign up
       </Button>
-      {error.name && <p>{error.message}</p>}
+      {errors.name && <p>{errors.message}</p>}
       <p className="mt-4 mb-2 text-center text-dark small">
         Already have an account?{" "}
         <Link className="text-decoration-none" to={Path.SIGN_IN}>
