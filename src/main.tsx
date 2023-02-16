@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./services/auth/UserAuth";
 import App from "./app/App";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./css/styles.css";
+import "./assets/css/styles.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
