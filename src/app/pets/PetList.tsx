@@ -1,4 +1,3 @@
-import { Col, Row } from "react-bootstrap";
 import { useState } from "react";
 import data from "../../services/db/temp-data";
 import Pet from "./Pet";
