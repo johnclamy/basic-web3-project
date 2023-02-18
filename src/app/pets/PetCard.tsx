@@ -1,4 +1,4 @@
-import { Badge, Card, ListGroup } from "react-bootstrap";
+import { Badge, Button, Card, ListGroup } from "react-bootstrap";
 import Pet from "./Pet";
 
 type PetCardProps = {
@@ -9,17 +9,27 @@ type PetCardProps = {
 const PetCard = ({ key, pet }: PetCardProps) => {
   return (
     <Card className="mb-2">
-      <Card.Img variant="top" src={pet.image} />
+      <Card.Img variant="top" src="" />
       <Card.Body>
         <Card.Title>{pet.breed}</Card.Title>
-        {pet.keyFeatures.map((feature, indx) => (
-          <span key={indx}>
-            <Badge bg="dark">{feature}</Badge>{" "}
-          </span>
-        ))}
+        <div>
+          {pet["key-features"].map((feature, indx: number) => (
+            <span key={indx}>
+              <Badge bg="dark">{feature}</Badge>{" "}
+            </span>
+          ))}
+        </div>
+        <div className="d-flex justify-content-end gap-1 mt-2">
+          <Button variant="primary" size="sm">
+            Edit
+          </Button>{" "}
+          <Button variant="danger" size="sm">
+            Delete
+          </Button>
+        </div>
       </Card.Body>
       <Card.Body>
-        <Card.Text>{pet.description}</Card.Text>
+        <Card.Text className="mt-0">{pet.description}</Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
         {Object.entries(pet.behaviour).map(([key, val]) => {
