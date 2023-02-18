@@ -6,10 +6,11 @@ type Behaviour = {
 };
 
 type Pet = {
+  id: string;
   breed: string;
   description: string;
   behaviour: Behaviour;
-  keyFeatures: string[];
+  "key-features": string[];
   ownerEmail: string;
   price: number;
   image: string;
