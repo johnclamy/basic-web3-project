@@ -13,7 +13,6 @@ type Pet = {
   "key-features": string[];
   ownerEmail: string;
   price: number;
-  image: string;
 };
 
 export default Pet;
