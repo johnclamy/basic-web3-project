@@ -4,12 +4,13 @@ import Pet from "./Pet";
 type PetCardProps = {
   key: string;
   pet: Pet;
+  img: string;
 };
 
-const PetCard = ({ key, pet }: PetCardProps) => {
+const PetCard = ({ key, pet, img }: PetCardProps) => {
   return (
     <Card className="mb-2">
-      <Card.Img variant="top" src="" />
+      <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{pet.breed}</Card.Title>
         <div>
