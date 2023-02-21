@@ -32,22 +32,6 @@ const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
       <Card.Body>
         <Card.Text className="mt-0">{pet.description}</Card.Text>
       </Card.Body>
-      <ListGroup className="list-group-flush">
-        {Object.entries(pet.behaviour).map(([key, val]) => {
-          return (
-            <ListGroup.Item>
-              {
-                <div style={{ maxWidth: "400px", margin: "0 auto" }}>
-                  <div className="d-flex justify-content-between">
-                    <b className="text-warning">{key}</b>{" "}
-                    <Badge bg="secondary rounded-circle">{val}</Badge>
-                  </div>
-                </div>
-              }
-            </ListGroup.Item>
-          );
-        })}
-      </ListGroup>
       <Card.Footer className="d-flex justify-content-between">
         <Card.Link href={`mailto:${pet.ownerEmail}`}>
           {pet.ownerEmail}

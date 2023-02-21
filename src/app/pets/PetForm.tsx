@@ -1,8 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
+import { addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
+import { PET_COLLECTION } from "../../services/db";
 import Path from "../../routes/Path";
 import UserAuth from "../../services/auth/UserAuth";
+import PetList from "./PetList";
 
 type Errors = {
   name: string;
@@ -19,11 +22,6 @@ const PetForm = () => {
   const [featureTwo, setFeatureTwo] = useState("");
   const [featureThree, setFeatureThree] = useState("");
   const [description, setDescription] = useState("");
-  const [behaviour, setBehaviour] = useState({
-    "Family friendly": 0,
-    "Friendly with kids": 0,
-    "Good with other dogs": 0,
-  });
 
   const [errors, setErrors] = useState<Error>({ name: "", message: "" });
   const isInvalid: boolean =
@@ -33,27 +31,27 @@ const PetForm = () => {
     featureOne.trim() === "" ||
     featureTwo.trim() === "" ||
     featureThree.trim() === "" ||
-    description.trim() === ""; /*
-    behaviour["Family friendly"] === 0 ||
-    behaviour["Friendly with kids"] === 0 ||
-    behaviour["Good with other dogs"] === 0; */
+    description.trim() === "";
+
   useEffect(() => {
     setOwnerId(user?.uid);
   }, [ownerId, setOwnerId]);
 
-  const handleSelect = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setBehaviour((prev) => {
-      return { ...prev, [name]: Number(value) };
-    });
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({ name: "", message: "" });
     const keyFeatures = [featureOne, featureTwo, featureThree];
-    console.log(ownerId, breed, price, keyFeatures, description, behaviour);
+    const pets = {
+      ownerId,
+      breed,
+      price,
+      keyFeatures,
+      description,
+    };
+    await addDoc(PET_COLLECTION, pets);
+
+    console.log(ownerId, breed, price, keyFeatures, description);
+
     setBreed("");
     setOwnerId("");
     setPrice(0);
@@ -116,47 +114,7 @@ const PetForm = () => {
           onChange={(e) => setFeatureThree(e.target.value)}
         />
       </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Select
-          className="mb-1"
-          size="lg"
-          onChange={handleSelect}
-          name='"Family friendly"'
-        >
-          <option>Is a family friendly pet?</option>
-          <option value="1">Not friendly at all</option>
-          <option value="2">Can be friendly occasionally</option>
-          <option value="3">Mostly a friendly pet</option>
-          <option value="4">Is a friendly pet</option>
-          <option value="5">Is a very friendly pet</option>
-        </Form.Select>
-        <Form.Select
-          className="mb-1"
-          size="lg"
-          onChange={handleSelect}
-          name='"Friendly with kids"'
-        >
-          <option>Is friendly with kids?</option>
-          <option value="1">Not friendly at all</option>
-          <option value="2">Can be friendly occasionally</option>
-          <option value="3">Mostly friendly</option>
-          <option value="4">Is friendly</option>
-          <option value="5">Is very friendly</option>
-        </Form.Select>
-        <Form.Select
-          className="mb-1"
-          size="lg"
-          onChange={handleSelect}
-          name='"Good with other dogs"'
-        >
-          <option>Is friendly with other dogs?</option>
-          <option value="1">Not friendly at all</option>
-          <option value="2">Can be friendly occasionally</option>
-          <option value="3">Mostly friendly</option>
-          <option value="4">Is friendly</option>
-          <option value="5">Is very friendly</option>
-        </Form.Select>
-      </Form.Group>
+
       <InputGroup size="lg" className="mb-3">
         <InputGroup.Text>Price in pounds (£)</InputGroup.Text>
         <Form.Control
