@@ -5,7 +5,6 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { PET_COLLECTION } from "../../services/db";
 import Path from "../../routes/Path";
 import UserAuth from "../../services/auth/UserAuth";
-import PetList from "./PetList";
 
 type Errors = {
   name: string;
@@ -50,8 +49,6 @@ const PetForm = () => {
     };
     await addDoc(PET_COLLECTION, pets);
 
-    console.log(ownerId, breed, price, keyFeatures, description);
-
     setBreed("");
     setOwnerId("");
     setPrice(0);
@@ -59,22 +56,9 @@ const PetForm = () => {
     setFeatureTwo("");
     setFeatureThree("");
     setDescription("");
+
+    navigate(Path.HOME);
   };
-  /*
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({ name: "", message: "" });
-    try {
-      await signIn(email, password);
-      navigate(Path.HOME);
-      console.log("user has signed in.");
-    } catch (err) {
-      if (err instanceof Error) {
-        setErrors({ name: err.name, message: err.message });
-      }
-      console.error("Unhandled error!");
-    }
-  };*/
 
   return (
     <Form onSubmit={handleSubmit} className="mb-2">
@@ -126,7 +110,7 @@ const PetForm = () => {
         <InputGroup.Text>.00</InputGroup.Text>
       </InputGroup>
       <Form.Group className="mb-3">
-        <Form.Label>Please provide a full description of your pet</Form.Label>
+        <Form.Label>Brief description of your pet</Form.Label>
         <Form.Control
           value={description}
           as="textarea"
