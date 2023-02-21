@@ -1,4 +1,4 @@
-import { Badge, Button, Card, ListGroup } from "react-bootstrap";
+import { Badge, Button, Card } from "react-bootstrap";
 import Pet from "./Pet";
 
 type PetCardProps = {
@@ -14,7 +14,7 @@ const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
       <Card.Body>
         <Card.Title>{pet.breed}</Card.Title>
         <div>
-          {pet["key-features"].map((feature, indx: number) => (
+          {pet.keyFeatures.map((feature, indx: number) => (
             <span key={indx}>
               <Badge bg="dark">{feature}</Badge>{" "}
             </span>
