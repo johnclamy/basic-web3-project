@@ -12,7 +12,7 @@ const PetList = () => {
   // const [petImages, setPetImages] = useState<PetImages>([]);
   const [pets, setPets] = useState<Pet[]>(data);
   const petList = pets.map((pet) => (
-    <PetCard key={pet.breed} pet={pet} /*img={petImages}*/ />
+    <PetCard key={pet.id} pet={pet} /*img={petImages}*/ />
   ));
 
   useEffect(() => {
