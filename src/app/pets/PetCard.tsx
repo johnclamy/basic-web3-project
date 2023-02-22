@@ -1,4 +1,6 @@
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { Badge, Button, Card } from "react-bootstrap";
+import Path from "../../routes/Path";
 import Pet from "./Pet";
 
 type PetCardProps = {
@@ -8,6 +10,17 @@ type PetCardProps = {
 };
 
 const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
+  const navigate = useNavigate();
+
+  const handleEdit = (id: string) => {
+    navigate({
+      pathname: Path.UPDATE_PET,
+      search: createSearchParams({
+        id: pet.id,
+      }).toString(),
+    });
+  };
+
   return (
     <Card className="mb-2">
       {/*<Card.Img variant="top" src={img} />*/}
@@ -21,7 +34,12 @@ const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
           ))}
         </div>
         <div className="d-flex justify-content-end gap-1 mt-2">
-          <Button variant="primary" size="sm">
+          <Button
+            variant="primary"
+            type="button"
+            size="sm"
+            onClick={handleEdit}
+          >
             Edit
           </Button>{" "}
           <Button variant="danger" size="sm">
