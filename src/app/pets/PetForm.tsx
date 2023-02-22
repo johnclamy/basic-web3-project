@@ -21,8 +21,8 @@ const PetForm = () => {
   const [featureTwo, setFeatureTwo] = useState("");
   const [featureThree, setFeatureThree] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState<Errors>({ name: "", message: "" });
 
-  const [errors, setErrors] = useState<Error>({ name: "", message: "" });
   const isInvalid: boolean =
     breed.trim() === "" ||
     ownerId.trim() === "" ||
