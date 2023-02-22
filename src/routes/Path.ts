@@ -5,7 +5,7 @@ enum Path {
   SIGN_IN = "/signin",
   ADD_PET = "/add-pet",
   NOT_FOUND = "*",
-  PET_DETAILS = "/pets/:id",
+  UPDATE_PET = "/update-pet",
   PASSWORD_FORGET = "/password-forget",
 }
 
