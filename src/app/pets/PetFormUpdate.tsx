@@ -10,6 +10,7 @@ type PetFormUpdateProps = { id: string | null };
 type Errors = { name: string; message: string };
 
 const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
+  const navigate = useNavigate();
   const [searchparams] = useSearchParams();
   const petId: string | null = searchparams.get("id");
   const docRef = doc(db, PET_COLLECTION_TITLE, petId);
@@ -64,6 +65,8 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
     setFeatureTwo("");
     setFeatureThree("");
     setDescription("");
+
+    navigate(Path.HOME);
   };
 
   return (
