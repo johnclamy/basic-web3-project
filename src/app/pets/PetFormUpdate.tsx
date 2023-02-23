@@ -1,17 +1,19 @@
 import { FormEvent, useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
-import UserAuth from "../../services/auth/UserAuth";
 import Path from "../../routes/Path";
+import { db } from "../../services/firebase";
+import { PET_COLLECTION_TITLE } from "../../services/db";
 
 type PetFormUpdateProps = { id: string | null };
 type Errors = { name: string; message: string };
 
 const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
   const [searchparams] = useSearchParams();
+  const petId: string | null = searchparams.get("id");
 
   const [breed, setBreed] = useState("");
-  const [ownerId, setOwnerId] = useState<string | null>("");
   const [price, setPrice] = useState(0);
   const [featureOne, setFeatureOne] = useState("");
   const [featureTwo, setFeatureTwo] = useState("");
@@ -21,18 +23,31 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
 
   const isInvalid: boolean =
     breed.trim() === "" ||
-    ownerId?.trim() === "" ||
     price === 0 ||
     featureOne.trim() === "" ||
     featureTwo.trim() === "" ||
     featureThree.trim() === "" ||
     description.trim() === "";
 
-  useEffect(() => {
-    setOwnerId(searchparams.get("id"));
-  }, [ownerId, setOwnerId]);
+  const getPet = async () => {
+    const docRef = doc(db, PET_COLLECTION_TITLE, petId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const pet = docSnap.data();
+      setBreed(pet.breed);
+      setPrice(pet.price);
+      setFeatureOne(pet.keyFeatures[0]);
+      setFeatureTwo(pet.keyFeatures[1]);
+      setFeatureThree(pet.keyFeatures[2]);
+      setDescription(pet.description);
+    } else {
+      console.error("No such document!");
+    }
+  };
 
-  console.log(ownerId);
+  useEffect(() => {
+    getPet();
+  }, []);
 
   const handleSubmit = () => {};
 
