@@ -1,5 +1,5 @@
 import { FormEvent, useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import Path from "../../routes/Path";
@@ -12,6 +12,7 @@ type Errors = { name: string; message: string };
 const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
   const [searchparams] = useSearchParams();
   const petId: string | null = searchparams.get("id");
+  const docRef = doc(db, PET_COLLECTION_TITLE, petId);
 
   const [breed, setBreed] = useState("");
   const [price, setPrice] = useState(0);
@@ -30,7 +31,6 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
     description.trim() === "";
 
   const getPet = async () => {
-    const docRef = doc(db, PET_COLLECTION_TITLE, petId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const pet = docSnap.data();
@@ -49,7 +49,22 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
     getPet();
   }, []);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await updateDoc(docRef, {
+      breed,
+      price,
+      description,
+      keyFeatures: [featureOne, featureTwo, featureThree],
+    });
+
+    setBreed("");
+    setPrice(0);
+    setFeatureOne("");
+    setFeatureTwo("");
+    setFeatureThree("");
+    setDescription("");
+  };
 
   return (
     <Form onSubmit={handleSubmit} className="mb-2">
