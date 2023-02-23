@@ -1,6 +1,9 @@
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { doc, deleteDoc } from "firebase/firestore";
 import { Badge, Button, Card } from "react-bootstrap";
 import Path from "../../routes/Path";
+import { db } from "../../services/firebase";
+import { PET_COLLECTION_TITLE } from "../../services/db";
 import Pet from "./Pet";
 
 type PetCardProps = {
@@ -11,14 +14,19 @@ type PetCardProps = {
 
 const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
   const navigate = useNavigate();
+  const petId = pet.id;
 
   const handleEdit = (id: string) => {
     navigate({
       pathname: Path.UPDATE_PET,
       search: createSearchParams({
-        id: pet.id,
+        id: petId,
       }).toString(),
     });
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteDoc(doc(db, PET_COLLECTION_TITLE, petId));
   };
 
   return (
@@ -42,7 +50,12 @@ const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
           >
             Edit
           </Button>{" "}
-          <Button variant="danger" size="sm">
+          <Button
+            variant="danger"
+            type="button"
+            size="sm"
+            onClick={handleDelete}
+          >
             Delete
           </Button>
         </div>
