@@ -25,7 +25,7 @@ const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
     });
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string): Promise<void> => {
     await deleteDoc(doc(db, PET_COLLECTION_TITLE, petId));
   };
 
