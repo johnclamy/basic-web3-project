@@ -7,12 +7,11 @@ import { PET_COLLECTION_TITLE } from "../../services/db";
 import Pet from "./Pet";
 
 type PetCardProps = {
-  key: string;
   pet: Pet;
   /*img: string;*/
 };
 
-const PetCard = ({ key, pet /* img */ }: PetCardProps) => {
+const PetCard = ({ pet /* img */ }: PetCardProps) => {
   const navigate = useNavigate();
   const petId = pet.id;
 
