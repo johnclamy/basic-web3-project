@@ -33,7 +33,7 @@ const PetForm = () => {
     description.trim() === "";
 
   useEffect(() => {
-    setOwnerId(user?.uid);
+    setOwnerId(user!.uid);
   }, [ownerId, setOwnerId]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
