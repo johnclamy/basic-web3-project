@@ -7,8 +7,9 @@ import { db } from "../../services/firebase";
 import { PET_COLLECTION_TITLE } from "../../services/db";
 
 type Errors = { name: string; message: string };
+type PetFormUpdateProp = { id: string | null };
 
-const PetFormUpdate = () => {
+const PetFormUpdate = ({ id }: PetFormUpdateProp) => {
   const navigate = useNavigate();
   const [searchparams] = useSearchParams();
   const petId: string | null = searchparams.get("id");
