@@ -6,8 +6,6 @@ import PetFormUpdate from "../app/pets/PetFormUpdate";
 const PetUpdate = () => {
   const [searchparams] = useSearchParams();
 
-  console.log(searchparams.get("id"));
-
   return (
     <PageWrapper>
       <div
