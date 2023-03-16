@@ -1,3 +1,4 @@
+import { SetStateAction } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Pet from "../../app/pets/Pet";
@@ -15,5 +16,5 @@ export const fetchPets = async (
       id: doc.id,
     };
   });
-  setState(petsData);
+  setState(petsData as SetStateAction<Pet[]>);
 };
