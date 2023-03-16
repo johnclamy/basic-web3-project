@@ -6,14 +6,13 @@ import Path from "../../routes/Path";
 import { db } from "../../services/firebase";
 import { PET_COLLECTION_TITLE } from "../../services/db";
 
-type PetFormUpdateProps = { id: string | null };
 type Errors = { name: string; message: string };
 
-const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
+const PetFormUpdate = () => {
   const navigate = useNavigate();
   const [searchparams] = useSearchParams();
   const petId: string | null = searchparams.get("id");
-  const docRef = doc(db, PET_COLLECTION_TITLE, petId);
+  const docRef = petId !== null ? doc(db, PET_COLLECTION_TITLE, petId) : null;
 
   const [breed, setBreed] = useState("");
   const [price, setPrice] = useState(0);
@@ -32,17 +31,19 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
     description.trim() === "";
 
   const getPet = async () => {
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const pet = docSnap.data();
-      setBreed(pet.breed);
-      setPrice(pet.price);
-      setFeatureOne(pet.keyFeatures[0]);
-      setFeatureTwo(pet.keyFeatures[1]);
-      setFeatureThree(pet.keyFeatures[2]);
-      setDescription(pet.description);
-    } else {
-      console.error("No such document!");
+    if (docRef) {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const pet = docSnap.data();
+        setBreed(pet.breed);
+        setPrice(pet.price);
+        setFeatureOne(pet.keyFeatures[0]);
+        setFeatureTwo(pet.keyFeatures[1]);
+        setFeatureThree(pet.keyFeatures[2]);
+        setDescription(pet.description);
+      } else {
+        console.error("No such document!");
+      }
     }
   };
 
@@ -51,13 +52,15 @@ const PetFormUpdate = ({ id }: PetFormUpdateProps) => {
   }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await updateDoc(docRef, {
-      breed,
-      price,
-      description,
-      keyFeatures: [featureOne, featureTwo, featureThree],
-    });
+    if (docRef) {
+      e.preventDefault();
+      await updateDoc(docRef, {
+        breed,
+        price,
+        description,
+        keyFeatures: [featureOne, featureTwo, featureThree],
+      });
+    }
 
     setBreed("");
     setPrice(0);
