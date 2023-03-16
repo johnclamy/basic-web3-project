@@ -45,7 +45,7 @@ const PetCard = ({ pet /* img */ }: PetCardProps) => {
             variant="primary"
             type="button"
             size="sm"
-            onClick={handleEdit}
+            onClick={() => handleEdit(petId)}
           >
             Edit
           </Button>{" "}
@@ -53,7 +53,7 @@ const PetCard = ({ pet /* img */ }: PetCardProps) => {
             variant="danger"
             type="button"
             size="sm"
-            onClick={handleDelete}
+            onClick={() => handleDelete(petId)}
           >
             Delete
           </Button>
